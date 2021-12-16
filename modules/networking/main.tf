@@ -22,7 +22,7 @@ resource "aws_s3_bucket" "vpc_flow_logs" {
   }
 
   tags = {
-    Name = "${var.env}_vpc_flow_logs_bucket"
+    Name = "${var.env}-vpc-flow-logs-bucket"
     Env  = var.env
   }
 }
@@ -35,7 +35,7 @@ resource "aws_flow_log" "main" {
   vpc_id               = aws_vpc.main.id
 
   tags = {
-    Name = "${var.env}_vpc_flow_logs"
+    Name = "${var.env}-vpc-flow-logs"
     Env  = var.env
   }
 }
@@ -49,7 +49,7 @@ resource "aws_vpc" "main" {
   enable_dns_hostnames = true
 
   tags = {
-    Name = "${var.env}_vpc"
+    Name = "${var.env}-vpc"
     Env  = var.env
   }
 }
@@ -59,7 +59,7 @@ resource "aws_default_security_group" "default" {
   vpc_id = aws_vpc.main.id
 
   tags = {
-    Name = "${var.env}_default_sg"
+    Name = "${var.env}-default-sg"
     Env  = var.env
   }
 }
@@ -69,7 +69,7 @@ resource "aws_internet_gateway" "gw" {
   vpc_id = aws_vpc.main.id
 
   tags = {
-    Name = "${var.env}_ig"
+    Name = "${var.env}-ig"
     Env  = var.env
   }
 }
@@ -83,7 +83,7 @@ resource "aws_subnet" "private" {
   map_public_ip_on_launch = false
 
   tags = {
-    Name = "${var.env}_private_subnet"
+    Name = "${var.env}-private-subnet"
     Env  = var.env
   }
 
@@ -103,7 +103,7 @@ resource "aws_subnet" "public" {
   map_public_ip_on_launch = true
 
   tags = {
-    Name = "${var.env}_public_subnet"
+    Name = "${var.env}-public-subnet"
     Env  = var.env
   }
 
@@ -118,7 +118,7 @@ resource "aws_eip" "nat_eip" {
   vpc   = true
   count = min(length(var.public_subnet_cidrs), length(var.private_subnet_cidrs), length(data.aws_availability_zones.az.names))
   tags = {
-    Name = "${var.env}_nat_eip_${count.index}"
+    Name = "${var.env}-nat-eip-${count.index}"
     Env  = var.env
   }
 }
@@ -130,7 +130,7 @@ resource "aws_nat_gateway" "gw" {
   subnet_id     = element(aws_subnet.public.*.id, count.index)
 
   tags = {
-    Name = "${var.env}_nat_gateway_${count.index}"
+    Name = "${var.env}-nat-gateway-${count.index}"
     Env  = var.env
   }
 }
@@ -146,7 +146,7 @@ resource "aws_route_table" "private" {
   }
 
   tags = {
-    Name = "${var.env}_private_rt_${count.index}"
+    Name = "${var.env}-private-rt-${count.index}"
     Env  = var.env
   }
 
@@ -170,7 +170,7 @@ resource "aws_route_table" "public" {
   }
 
   tags = {
-    Name = "${var.env}_public_rt"
+    Name = "${var.env}-public-rt"
     Env  = var.env
   }
 
