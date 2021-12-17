@@ -1,3 +1,17 @@
+/**
+* # Networking module
+* This module is used to create networking resources on AWS, list of resources created are listed below:
+* - VPC
+* - Private and public subnets
+* - Route tables 
+* - Nat gateways for internets access from public subnets
+* - S3 bucket for VPC flow logs
+* - Internet gateway
+*
+* The list of requirements, outputs, variables(optional and required) are listed below
+*/
+
+
 # random string generator
 resource "random_string" "suffix" {
   length  = 5
