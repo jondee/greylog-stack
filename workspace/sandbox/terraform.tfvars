@@ -22,7 +22,6 @@ postgresql_engine_version          = "12.7"
 postgresql_instance_class          = "db.t2.micro"
 postgresql_db_name                 = "greylog"
 postgresql_username                = "greylog"
-postgresql_password                = "<pass>"
 postgresql_multi_az                = true
 postgresql_port                    = 5432
 postgresql_parameter_group_name    = "default.postgres12"

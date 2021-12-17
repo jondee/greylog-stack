@@ -30,6 +30,12 @@ resource "aws_autoscaling_group" "this" {
   timeouts {
     delete = "15m"
   }
+
+  lifecycle {
+    ignore_changes = [
+      desired_capacity
+    ]
+  }
 }
 
 # Scale up policy

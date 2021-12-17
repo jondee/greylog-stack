@@ -14,7 +14,7 @@ resource "local_file" "ssh_public_key_openssh" {
   content  = tls_private_key.global_key.public_key_openssh
 }
 
-# Temporary key pair used for SSH accesss
+# aws key pair used for SSH accesss
 resource "aws_key_pair" "this" {
   key_name_prefix = "${var.env}-key"
   public_key      = tls_private_key.global_key.public_key_openssh

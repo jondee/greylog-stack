@@ -1,4 +1,18 @@
-
+/**
+* # Compute module
+* This module is used to create AWS compute resources used to host a simple PHP web application on EC2 instances created by an ASG and launch template, list of resources created are listed below:
+* - Launch template
+* - Auto scaling group, with auto scalling policies triggered by Cloudwatch alarms
+* - Route53 record to access the LB with a dns name
+* - Certifcate in AWS Certificate manager
+* - Loadbalancer, listeners, target groups
+* - Security groups with whitelisting
+* - A bastion host for configing the database
+* - SSH keys to access the compute nodes
+* - IAM instance profile
+*
+* The list of requirements, outputs, variables(optional and required) are listed below
+*/
 
 # Instance profile
 resource "aws_iam_instance_profile" "this" {
@@ -47,7 +61,7 @@ resource "aws_acm_certificate" "this" {
   }
 }
 
-# Route53 record
+# ACM validation
 resource "aws_route53_record" "this" {
   for_each = {
     for dvo in aws_acm_certificate.this.domain_validation_options : dvo.domain_name => {
@@ -65,13 +79,13 @@ resource "aws_route53_record" "this" {
   zone_id         = data.aws_route53_zone.this.zone_id
 }
 
-# ACM validation
 resource "aws_acm_certificate_validation" "this" {
   certificate_arn         = aws_acm_certificate.this.arn
   validation_record_fqdns = [for record in aws_route53_record.this : record.fqdn]
 }
 
-resource "aws_route53_record" "worker" {
+# Create DNS record 
+resource "aws_route53_record" "compute" {
   zone_id = data.aws_route53_zone.this.zone_id
   name    = "${var.env}.${data.aws_route53_zone.this.name}"
   type    = "A"
@@ -84,7 +98,7 @@ resource "aws_route53_record" "worker" {
 }
 
 # LB listener
-resource "aws_lb_listener" "worker" {
+resource "aws_lb_listener" "compute_80" {
   load_balancer_arn = aws_lb.worker_lb.arn
   port              = 80
   protocol          = "HTTP"
@@ -100,7 +114,8 @@ resource "aws_lb_listener" "worker" {
   }
 }
 
-resource "aws_lb_listener" "worker_80" {
+# listener
+resource "aws_lb_listener" "compute_443" {
   load_balancer_arn = aws_lb.worker_lb.arn
   port              = "443"
   protocol          = "HTTPS"
@@ -113,7 +128,8 @@ resource "aws_lb_listener" "worker_80" {
   }
 }
 
-resource "aws_autoscaling_attachment" "asg_attachment_bar" {
+# compute ASG attachment to target group
+resource "aws_autoscaling_attachment" "asg_attachment_compute" {
   autoscaling_group_name = aws_autoscaling_group.this.id
   alb_target_group_arn   = aws_lb_target_group.this.arn
 }

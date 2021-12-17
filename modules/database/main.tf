@@ -1,3 +1,13 @@
+/**
+* # Database module
+* This module is used to create an RDS instance on AWS, list of resources created are listed below:
+* - Database subnet group
+* - RDS database
+* - Security group
+*
+* The list of requirements, outputs, variables(optional and required) are listed below
+*/
+
 resource "aws_db_subnet_group" "this" {
   name       = "${var.env}-db-subnets"
   subnet_ids = var.subnet_ids

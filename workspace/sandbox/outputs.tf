@@ -1,3 +1,4 @@
-output "bastion_sg" {
-  value = module.compute.bastion_sg_id
+output "url" {
+  value       = "https://${module.compute.record}"
+  description = "DNS address to access the application"
 }
