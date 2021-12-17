@@ -41,9 +41,10 @@ variable "hosted_zone_name" {
   description = "The host zone name in AWS to create a record for this rancher server"
 }
 
-# variable "public_rta" {}
-# variable "private_rta" {}
-
+variable "ip_list_for_bastion_access" {
+  type        = list(string)
+  description = "List of IP's to allow ssh access to the bastion"
+}
 # ASG vars
 variable "asg_min_size" {
   type        = number
@@ -66,4 +67,33 @@ variable "asg_desired_size" {
   type        = number
   description = "(optional) Desired size for the auto scaling group"
   default     = 2
+}
+
+variable "db_endpoint" {
+  type        = string
+  description = "The endpoint of the RDS instance"
+}
+
+variable "db_port" {
+  type        = number
+  description = "The port of the RDS instance"
+  default     = 5432
+}
+
+variable "db_name" {
+  type        = string
+  description = "The name of the database to connect to"
+  default     = "greylog"
+}
+
+variable "db_username" {
+  type        = string
+  description = "Username for the DB"
+  default     = "greylog"
+}
+
+variable "db_password" {
+  type        = string
+  description = "Password for the DB"
+  sensitive   = true
 }

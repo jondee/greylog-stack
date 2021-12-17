@@ -26,5 +26,11 @@ resource "aws_launch_template" "this" {
     }
   }
 
-  user_data = filebase64("${path.module}/files/user_data.sh")
+  user_data = base64encode(templatefile("${path.module}/templates/compute_data.tpl", {
+    db_host     = trim(var.db_endpoint, ":5432")
+    db_user     = var.db_username
+    db_password = var.db_password
+    db_port     = var.db_port
+    db_name     = var.db_name
+  }))
 }

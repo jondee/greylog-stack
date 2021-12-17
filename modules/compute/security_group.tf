@@ -47,6 +47,43 @@ resource "aws_security_group" "lb" {
   }
 }
 
+# Bastion node SG
+resource "aws_security_group" "bastion" {
+  name        = "${var.env}-bastion-sg"
+  description = "Bastion SG"
+  vpc_id      = var.vpc_id
+
+  dynamic "ingress" {
+    for_each = var.ip_list_for_bastion_access
+
+    content {
+      from_port   = "22"
+      to_port     = "22"
+      protocol    = "TCP"
+      cidr_blocks = [ingress.value]
+    }
+
+  }
+
+  egress {
+    from_port   = "0"
+    to_port     = "0"
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  lifecycle {
+    ignore_changes = [
+      ingress,
+    ]
+  }
+
+  tags = {
+    Name = "${var.env}-bastion-sg"
+    Env  = var.env
+  }
+}
+
 resource "aws_security_group" "compute" {
   name        = "${var.env}-compute-sg"
   description = "Security gruop for compute nodes"
