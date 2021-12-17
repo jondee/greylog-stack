@@ -9,9 +9,9 @@ public_subnet_cidrs  = ["10.0.1.0/24", "10.0.2.0/24"]
 
 
 # Compute 
-hosted_zone_name           = "sirjobzy.com."
-ip_list_for_lb_access      = ["99.238.254.40/32"]
-ip_list_for_bastion_access = ["99.238.254.40/32"]
+hosted_zone_name           = "greylog.com."
+ip_list_for_lb_access      = ["0.0.0.0/0"]
+ip_list_for_bastion_access = ["0.0.0.0/0"]
 
 
 # PostgreSQL
