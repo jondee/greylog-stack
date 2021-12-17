@@ -6,9 +6,9 @@
 * Before you can run this terraform workspace, you will need the following below:
 * - AWS account used to create the resources
 * - IAM credentials will access to create resources, an Administrator role will be able to create the resources
-* - AWS (CLI)[https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html] installed on your machine,.
-* - Terraform (CLI)[https://learn.hashicorp.com/tutorials/terraform/install-cli] version >=0.14 installed on your machine.
-* - A configured aws (named profile)[https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-profiles.html], this is used to configure the provider in the `provider.tf` file.
+* - AWS [CLI](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html) installed on your machine,.
+* - Terraform [CLI](https://learn.hashicorp.com/tutorials/terraform/install-cli) version >=0.14 installed on your machine.
+* - A configured aws [named profile](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-profiles.html), this is used to configure the provider in the `provider.tf` file.
 * - A public AWS Route53 hosted zone (this is used to create a DNS record and request for a SSL certificate from AWS Certificate Manager to attach to the Loadbalancer)
 *
 * ## Modifying variables
