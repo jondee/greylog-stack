@@ -23,6 +23,8 @@ You can restric access to the Loadbalancer which forwards traffic to the web ser
 
 ## Running Terraform
 To apply this workspace, run:
+- Create a named aws profile called greylog: run `aws configure --profile greylog`, then fill in your access key and secret key
+- Modify `terraform.tfvars`, the only variable you have to modify is the `hosted_zone_name`, the others can be left as-is.
 - `Terraform init` to initialize terraform
 - `Terraform plan` to view changes that the workspace will make
 - `Terraform apply -auto-approve` to apply the changes
